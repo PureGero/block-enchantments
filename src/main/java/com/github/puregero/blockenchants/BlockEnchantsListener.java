@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
@@ -52,7 +53,7 @@ public class BlockEnchantsListener implements Listener, Runnable {
 
     @EventHandler
     public void onEnchant(EnchantItemEvent event) {
-        for (Map.Entry<Enchantment, Integer> entry : event.getEnchantsToAdd().entrySet()) {
+        for (Map.Entry<Enchantment, Integer> entry : new ArrayList<>(event.getEnchantsToAdd().entrySet())) {
             Set<Enchantment> allowList = getAllowList(event.getItem().getType());
             if (!allowList.contains(entry.getKey())) {
                 event.getEnchantsToAdd().remove(entry.getKey());
