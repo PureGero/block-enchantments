@@ -13,6 +13,9 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionType;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -103,6 +106,13 @@ public class BlockEnchantsListener implements Listener, Runnable {
                 meta.addEnchant(entry.getKey(), plugin.maximumLevels.getOrDefault(entry.getKey(), entry.getKey().getMaxLevel()), true);
                 modifiedEnchants = true;
             }
+        }
+
+        if (itemStack.getType().equals(Material.TIPPED_ARROW)
+                && meta instanceof PotionMeta potionMeta
+                && potionMeta.getBasePotionData().getType() == PotionType.INSTANT_DAMAGE) {
+            modifiedEnchants = true;
+            potionMeta.setBasePotionData(new PotionData(PotionType.AWKWARD));
         }
 
         if (modifiedEnchants) {
